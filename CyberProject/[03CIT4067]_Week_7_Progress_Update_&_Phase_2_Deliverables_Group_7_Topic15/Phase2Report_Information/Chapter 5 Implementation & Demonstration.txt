@@ -1,0 +1,106 @@
+太棒了！你的執行力非常強。既然圖片已經準備就緒，我們現在立刻進入 **Chapter 5: Implementation & Demonstration** 的撰寫。
+
+以下內容是為你量身定制的英文草稿。我嚴格遵循了學術寫作規範（客觀、專業），並預留了 **APA 7th 格式的引用** 和 **圖片插入位置**。你可以直接將這些文字複製到你的 Word 報告中，然後在標記的地方插入你重命名好的圖片。
+
+---
+
+# **Chapter 5: Implementation & Demonstration**
+
+## **5.1 Development Environment & Tools**
+To successfully implement the "Web Application Security Risk Detection and Remediation Demonstration System," the team established a robust and isolated development environment. The following tools and technologies were utilized:
+
+*   **Target Vulnerable Application:** OWASP Juice Shop (deployed via Docker container `bkimminich/juice-shop`), representing a modern, single-page application (SPA) built with Node.js, Express, and Angular (OWASP Foundation, 2025).
+*   **Custom Remediation Modules:** Python 3.10 and Flask (a lightweight WSGI web application framework) were used to develop custom endpoints specifically for demonstrating the OWASP 2025 A10 category.
+*   **Operating System & Testing Environment:** Kali Linux (VirtualBox) was used as the primary penetration testing and development environment.
+*   **Web Browser:** Mozilla Firefox (with developer tools enabled) for executing and verifying client-side attacks.
+
+## **5.2 System Architecture Implementation**
+The demonstration system is architecturally divided into two core components to satisfy the project's "Detection and Remediation" requirements:
+1.  **Detection Environment (Red Team):** The OWASP Juice Shop instance serves as the primary target for vulnerability detection. It natively contains flaws corresponding to multiple categories of the OWASP Top 10: 2025, allowing for realistic attack simulations.
+2.  **Remediation Dashboard (Blue Team):** A custom Python Flask application was developed to act as a controlled environment. Unlike the complex Juice Shop, this module isolates specific logic flaws—most notably the A10: Mishandling of Exceptional Conditions—allowing for a clear, side-by-side comparison of vulnerable and secure code.
+
+## **5.3 Vulnerability Detection & Remediation Demonstration**
+This section details the practical execution of attacks (Detection) and the corresponding code-level fixes (Remediation) for critical vulnerabilities identified in our Threat Modeling phase.
+
+### **5.3.1 A05: Injection - SQL Injection (Authentication Bypass)**
+SQL Injection (SQLi) remains one of the most critical web vulnerabilities. In this demonstration, we targeted the authentication mechanism of the OWASP Juice Shop.
+
+**Detection (Attack Execution):**
+By inputting the classic SQLi payload `' OR 1=1--` into the email field, the attacker manipulates the backend SQL query. The `--` comments out the password check, and `1=1` ensures the condition always evaluates to true. 
+
+*[Insert Figure 5.1 here: Fig5.1_A05_SQLi_PayloadInput.png]*
+*Figure 5.1. SQL injection payload (`' OR 1=1--`) executed on the OWASP Juice Shop login page.*
+
+As shown in Figure 5.2, the application fails to sanitize the input, successfully bypassing the authentication logic and logging the attacker in as the Administrator.
+
+*[Insert Figure 5.2 here: Fig5.2_A05_SQLi_AuthBypassSuccess.png]*
+*Figure 5.2. Successful authentication bypass demonstrating the SQL injection vulnerability, granting administrator access.*
+
+**Remediation Strategy:**
+The root cause of this vulnerability is the direct concatenation of user input into SQL strings. The remediation requires the use of **Parameterized Queries** or an Object-Relational Mapping (ORM) library. 
+*   *Vulnerable Code:* `db.query("SELECT * FROM Users WHERE email = '" + input + "'");`
+*   *Remediated Code (Node.js/Sequelize):* `User.findOne({ where: { email: input } });` 
+By using ORM parameterization, the database treats the input strictly as data, not as executable code, neutralizing the attack.
+
+### **5.3.2 A05: Injection - Stored Cross-Site Scripting (XSS)**
+Stored XSS occurs when malicious scripts are permanently stored on the target server (e.g., in a database) and executed whenever a user views the affected page.
+
+**Detection (Attack Execution):**
+We targeted the "Product Review" feature of the Juice Shop. An attacker can inject malicious HTML tags, such as `<iframe src="javascript:alert('XSS')"></iframe>` or `<img src="x" onerror="alert('XSS')">`, into the review comment field.
+
+*[Insert Figure 5.3 here: Fig5.3_A05_XSS_StoredPayloadInput.png]*
+*Figure 5.3. Malicious HTML payload submitted into the product review section of the application.*
+
+Because the application lacks proper output encoding, the payload is saved to the database. When any user visits the product page, the browser renders the malicious tags.
+
+*[Insert Figure 5.4 here: Fig5.4_A05_XSS_UnsanitizedRender.png]*
+*Figure 5.4. Unsanitized HTML tags rendered in the browser upon page reload, confirming the stored XSS vulnerability.*
+
+**Remediation Strategy:**
+To prevent XSS, all user-supplied data must be sanitized before rendering. 
+*   *Vulnerable Code:* `element.innerHTML = userInput;`
+*   *Remediated Code:* `element.textContent = userInput;` or using a robust sanitization library like `DOMPurify.sanitize(userInput);`. 
+Additionally, implementing a strict **Content Security Policy (CSP)** header provides a secondary layer of defense against script execution.
+
+### **5.3.3 A10: Mishandling of Exceptional Conditions (Fail-Open vs. Fail-Closed)**
+*Note: This is a critical new category emphasized in the OWASP Top 10: 2025 updates.*
+This vulnerability occurs when a system encounters an error (e.g., database crash, timeout) and defaults to an insecure state, inadvertently granting access (Fail-Open).
+
+**Detection (Fail-Open Demonstration):**
+We developed a custom Flask module (`a10_demo.py`) to simulate this scenario. The `/admin` route checks the user role. If a specific condition triggers an exception (simulating a backend failure), the `except` block incorrectly returns an "Access Granted" message.
+
+*[Insert Figure 5.5 here: Fig5.5_A10_VulnerableCode_Nano.png]*
+*Figure 5.5. Vulnerable Python Flask code demonstrating the fail-open mechanism within the `except` block.*
+
+When navigating to `/admin?user=attacker`, the system throws an exception. Instead of blocking the request, the vulnerable logic defaults to granting access, as shown in Figure 5.6.
+
+*[Insert Figure 5.6 here: Fig5.6_A10_FailOpen_BrowserResult.png]*
+*Figure 5.6. Browser output showing unauthorized access granted due to an unhandled exception (fail-open vulnerability).*
+
+**Remediation Strategy (Fail-Closed Implementation):**
+The secure approach is "Fail-Closed" (or Fail-Safe). In the event of an error, the system must default to denying access and returning a standard error code (e.g., HTTP 503 Service Unavailable).
+
+*[Insert Figure 5.7 here: Fig5.7_A10_RemediatedCode_Nano.png]*
+*Figure 5.7. Remediated Flask code implementing a fail-closed mechanism, returning an HTTP 503 status code.*
+
+After applying the fix, triggering the same exception results in a secure denial of access, as demonstrated in Figure 5.8.
+
+*[Insert Figure 5.8 here: Fig5.8_A10_FailClosed_BrowserResult.png]*
+*Figure 5.8. Browser output showing secure default behavior (access denied) after the remediation is applied.*
+
+## **5.4 Automated Security Scanning Integration**
+To fulfill the "Detection System" requirement of the project title, manual penetration testing was supplemented with automated scanning. The team utilized **OWASP ZAP (Zed Attack Proxy)** to perform automated vulnerability assessments against the OWASP Juice Shop instance. The generated HTML reports, which categorize risks into High, Medium, and Low severity, serve as the foundational data for our risk detection dashboard, ensuring comprehensive coverage of the OWASP Top 10.
+
+## **5.5 Summary of Implementation**
+The implementation phase successfully delivered a functional demonstration system. By integrating the comprehensive vulnerabilities of OWASP Juice Shop with targeted custom Flask modules, the project effectively demonstrates both the **Detection** of complex web flaws and the practical **Remediation** strategies required to secure modern applications. The successful execution of the A10 Fail-Closed module specifically highlights the team's alignment with the latest OWASP 2025 standards.
+
+---
+
+### 💡 給 Lai Man 的下一步建議：
+
+1. **複製與插入**：請將上述文字複製到 Word 中，並按照標記插入你重命名好的 8 張圖片。
+2. **格式調整**：確保圖片置中，Figure Caption (圖題) 位於圖片**正下方**，並使用斜體（如 *Figure 5.1. ...*），這符合 APA 7th 的標準格式。
+3. **檢查字數與排版**：這部分的字數和深度已經足夠支撐 Product (40%) 的核心評分。
+
+**你準備好繼續撰寫下一章節了嗎？** 
+接下來我們可以處理 **Chapter 6: Security Testing & Remediation (整體測試策略)**，或者直接跳到 **Chapter 7: Conclusion**。請告訴我你的選擇！

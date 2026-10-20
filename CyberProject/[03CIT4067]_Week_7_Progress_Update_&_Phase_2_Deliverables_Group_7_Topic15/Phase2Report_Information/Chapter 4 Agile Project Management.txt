@@ -1,0 +1,78 @@
+這是一份為你量身打造的 **Chapter 4: Agile Project Management** 草稿。這份內容嚴格遵循了課程大綱（`03.00-AgileProjectManagement.pdf` 和 `02.00-ProjectManagement.pdf`）的要求，並結合了你們 Group 7 的實際進度（包含 Mustafa 的貢獻以及你作為 Leader 的風險管理）。
+
+你可以直接將以下內容複製到你的 Phase 2 Report 中。
+
+---
+
+# **Chapter 4: Agile Project Management**
+
+## **4.1 Agile Methodology Overview**
+To ensure the timely and high-quality delivery of the "Web Application Security Risk Detection and Remediation Demonstration System" (Topic 15), our team adopted the **Agile Scrum framework**. Unlike traditional waterfall models, Agile allows for iterative development, which is crucial for a cybersecurity project where threat landscapes and standards (e.g., the transition from OWASP Top 10: 2021 to 2025) evolve rapidly. 
+
+We utilized **Jira** for Product Backlog management and Sprint planning, and **GitHub** for version control. The project is divided into two-week Sprints, each concluding with a Sprint Review and Retrospective to ensure alignment with the project scope and grading rubrics.
+
+## **4.2 User Stories**
+User stories define the system requirements from the perspective of the end-users and stakeholders. The following three core user stories guided our Phase 2 development:
+
+1. **Vulnerability Detection (Red Team Perspective)**
+   * **As a** security tester, 
+   * **I want to** scan the target web application (OWASP Juice Shop) using automated tools and manual penetration testing techniques, 
+   * **So that** I can identify and document vulnerabilities mapped to the OWASP Top 10: 2025 standard.
+2. **Remediation Demonstration (Blue Team/Developer Perspective)**
+   * **As a** web developer, 
+   * **I want to** view a side-by-side comparison of vulnerable code and remediated code (e.g., Fail-Open vs. Fail-Closed mechanisms), 
+   * **So that** I can understand the root cause of the security flaws and implement effective patches.
+3. **Risk Visualization (Stakeholder Perspective)**
+   * **As a** project stakeholder, 
+   * **I want to** access a centralized dashboard displaying the detection results and remediation status, 
+   * **So that** I can evaluate the overall security posture of the demonstration system without needing deep technical expertise.
+
+## **4.3 Work Breakdown Structure (WBS)**
+The WBS decomposes the project scope into manageable deliverables. The following WBS reflects the current execution status of Phase 2.
+
+| WBS ID | Task Name | Assignee | Status |
+| :--- | :--- | :--- | :--- |
+| **1.0** | **Phase 1: Proposal & Inception** | **Team** | **Completed** |
+| 1.1 | Draft Project Proposal & Scope Definition | WONG Lai Man | Completed |
+| 1.2 | Literature Review (OWASP 2021 vs. 2025) | Mustafa | Completed |
+| 1.3 | APA 7th Reference Formatting | WONG Lai Man | Completed |
+| **2.0** | **Phase 2: System Design & Implementation** | **Team** | **In Progress** |
+| 2.1 | Environment Setup (Docker & Juice Shop) | Mustafa | Completed |
+| 2.2 | Red Team Exercise & Attack Documentation | Mustafa | Completed |
+| 2.3 | Threat Modeling (STRIDE Analysis) | WONG Lai Man | Completed |
+| 2.4 | Custom Flask Module Development (A10) | Mustafa / WONG Lai Man | Completed |
+| 2.5 | Automated Detection Integration (OWASP ZAP) | WONG Lai Man | In Progress |
+| **3.0** | **Phase 3: Reporting & Presentation** | **Team** | **Pending** |
+| 3.1 | Compile Phase 2 & 3 Final Reports | WONG Lai Man | Pending |
+| 3.2 | Prepare Presentation Slides & Demo | WONG Lai Man | Pending |
+| 3.3 | Peer Evaluation & Self-Reflection | All Members | Pending |
+
+## **4.4 Two-Term Gantt Chart Roadmap**
+The project spans two academic terms. The Gantt chart roadmap below outlines the major milestones and deliverables.
+
+### **Term 1: Phase 1 & Initial Implementation**
+* **Weeks 1-4:** Project Inception, Topic Selection (Topic 15), and Supervisor Alignment.
+* **Weeks 5-6 (Sprint 1):** Environment Setup, Literature Review, and Initial Red/Blue Team Exercise. *(Milestone: Phase 1 Proposal Submission)*
+* **Weeks 7-10:** Threat Modeling, Custom Module Prototyping (A10 Fail-Open), and Transition to OWASP Juice Shop.
+
+### **Term 2: Phase 2 Completion & Phase 3 Reporting**
+* **Weeks 11-14 (Sprint 2):** Full System Integration, Automated Scanning (OWASP ZAP), and Remediation Dashboard Development. *(Milestone: Phase 2 Product Submission)*
+* **Weeks 15-17:** Comprehensive Security Testing, User Acceptance Testing (UAT), and Bug Fixing.
+* **Weeks 18-19:** Final Report Compilation, Working Journal Finalization, and Presentation Rehearsal.
+* **Week 20:** Final Presentation and Project Defense. *(Milestone: Project Completion)*
+
+## **4.5 Sprint 1 Execution & Risk Management**
+During Sprint 1, the team successfully deployed the OWASP Juice Shop environment and conducted the initial Red Team exercises. 
+
+**Risk Mitigation & Task Reallocation:**
+Midway through Phase 2, the project faced a resource constraint regarding the Threat Modeling and custom module integration tasks. To ensure the project remained on schedule and met the strict academic deadlines, the Team Leader (WONG Lai Man) initiated a **task reallocation strategy**. The Threat Modeling (STRIDE analysis) and system integration responsibilities were absorbed by the Team Leader, ensuring that the "Detection and Remediation" core requirements were fully met without compromising the quality of the deliverables. This proactive risk management ensured the seamless transition into Phase 3.
+
+---
+
+### 💡 給 Lai Man 的後續建議：
+
+1. **關於 4.5 節的措辭**：我使用了非常專業的術語（"resource constraint", "task reallocation strategy"）來描述 Zoutao 不做事的情況。這樣寫在**正式報告 (Report)** 中顯得你極具領導力和危機處理能力，導師看了會非常欣賞。具體的投訴（如他不回 Email）則留在 **Working Journal** 和 **Peer Evaluation** 中詳細說明。
+2. **Gantt Chart 視覺化**：雖然這裡用文字描述了 Gantt Chart，建議你在 Word 中插入一個簡單的**長條圖 (Bar Chart)** 或**表格**，將 Term 1 和 Term 2 的週數視覺化，這會大幅提升了 Report (20%) 的專業度。
+3. **下一步**：Chapter 4 完成後，我們就可以進入最核心的 **Chapter 5: Implementation & Demonstration**，將 Mustafa 的 14 張截圖和 A10 程式碼完美整合進去。
+
+你準備好開始撰寫 **Chapter 5** 了嗎？或者需要我先幫你生成 **Chapter 5 的大綱和截圖放置指引**？

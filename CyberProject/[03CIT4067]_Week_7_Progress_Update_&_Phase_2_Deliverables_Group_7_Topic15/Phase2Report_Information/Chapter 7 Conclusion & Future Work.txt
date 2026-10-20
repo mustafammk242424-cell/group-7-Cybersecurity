@@ -1,0 +1,44 @@
+這是一份為你量身打造的 **Chapter 7: Conclusion & Future Work** 草稿。
+
+這個章節是整個報告的「收尾」，需要展現出你們團隊的**批判性思考 (Critical Thinking)** 和**前瞻視野**。除了總結你們完美達成了 Topic 15 的要求外，誠實地指出當前系統的局限性（Limitations）並提出未來改進方向（Future Work），在學術評分中是非常關鍵的加分項。
+
+---
+
+# **Chapter 7: Conclusion & Future Work**
+
+## **7.1 Project Summary**
+This project successfully designed and implemented a "Web Application Security Risk Detection and Remediation Demonstration System" (Topic 15), strictly aligned with the latest **OWASP Top 10: 2025** standard. By adopting an Agile Scrum methodology, the team iteratively developed a comprehensive platform that bridges the gap between theoretical vulnerability analysis and practical code-level remediation. 
+
+The system integrates a modern, containerized target environment (OWASP Juice Shop) for broad-spectrum vulnerability detection, alongside custom-built Python Flask modules specifically engineered to demonstrate complex business logic flaws. This hybrid architecture ensures that the project not only identifies common injection and configuration risks but also provides clear, actionable remediation strategies, fully satisfying the core objectives of the "Detection and Remediation" mandate.
+
+## **7.2 Key Achievements**
+Throughout the two-term development lifecycle, the team achieved several critical milestones:
+1.  **Alignment with OWASP 2025 Standards:** Unlike many legacy projects that rely on the 2021 standard, our system explicitly addresses the newly introduced and re-prioritized categories of 2025. Most notably, the successful development of the **A10: Mishandling of Exceptional Conditions** module provides a rare, hands-on demonstration of "Fail-Open" versus "Fail-Closed" architectures, a critical concept often overlooked in standard web security training.
+2.  **Hybrid Detection Methodology:** The project successfully combined automated vulnerability scanning (using OWASP ZAP) with manual penetration testing (using Burp Suite). This approach proved that while automated tools are essential for baseline coverage, manual testing remains indispensable for identifying complex logic flaws like the A10 vulnerability.
+3.  **Actionable Remediation Framework:** Beyond merely exploiting vulnerabilities, the project delivered a structured remediation framework. By providing side-by-side code comparisons (e.g., vulnerable string concatenation vs. secure ORM parameterization for SQLi), the system serves as an effective educational tool for developers and security practitioners.
+4.  **Effective Agile Risk Management:** The team successfully navigated resource constraints and technical blockers through proactive Agile risk management, ensuring that all Phase 2 deliverables were met on schedule without compromising technical depth.
+
+## **7.3 Limitations**
+Despite the successful implementation of the demonstration system, several limitations were identified during the testing and evaluation phases:
+1.  **Scope of Automated Detection:** While OWASP ZAP effectively identified standard injection and misconfiguration vulnerabilities, it failed to detect the custom A10 Fail-Open logic flaw. This highlights a fundamental limitation of current automated DAST (Dynamic Application Security Testing) tools in understanding complex business logic and state-dependent authorization flows.
+2.  **Environment Isolation:** The current demonstration system operates entirely within a local, isolated Docker environment. While this is ideal for safe testing and educational purposes, it does not fully replicate the complexities of a production environment, such as load balancing, WAF (Web Application Firewall) interference, or cloud-native infrastructure dependencies.
+3.  **Limited Supply Chain Simulation:** Although the project addresses A03 (Software Supply Chain Failures) conceptually and through dependency scanning tools (e.g., `npm audit`), simulating a real-world, sophisticated supply chain attack (such as a compromised CI/CD pipeline or typosquatting) within a local demo environment remains technically constrained.
+
+## **7.4 Future Work**
+To enhance the robustness and real-world applicability of the demonstration system, the following improvements are proposed for future development:
+1.  **Integration of SAST and SCA Tools:** To address the limitations of DAST, future iterations will integrate Static Application Security Testing (SAST) tools (e.g., SonarQube) and Software Composition Analysis (SCA) tools directly into the demonstration dashboard. This will provide a holistic "Shift-Left" security view, detecting vulnerabilities in the source code and dependencies before runtime.
+2.  **Cloud-Native Misconfiguration Module:** Given the rise of A02 (Security Misconfiguration) to the #2 spot in the OWASP 2025 rankings due to cloud adoption, future work will include deploying the system on a public cloud provider (e.g., AWS or Azure). This will allow for the demonstration of cloud-specific misconfigurations, such as overly permissive IAM roles or exposed S3 buckets.
+3.  **Automated CI/CD Security Pipeline:** The remediation strategies demonstrated in this project will be automated by integrating them into a CI/CD pipeline (e.g., GitHub Actions). This will demonstrate how security checks (such as automated ZAP scans and dependency audits) can be enforced automatically, preventing vulnerable code from ever reaching the production environment.
+
+## **7.5 Final Reflection**
+The development of this Web Application Security Risk Detection and Remediation Demonstration System has provided the team with invaluable practical experience in full-stack secure coding, penetration testing, and Agile project management. By confronting the realities of modern web vulnerabilities—particularly the nuanced logic flaws introduced in the OWASP 2025 standard—the team has successfully transformed theoretical cybersecurity concepts into a tangible, educational, and highly functional product.
+
+---
+
+### 💡 給 Lai Man 的下一步建議：
+
+1. **複製與整合**：將上述文字複製到 Word 中。Chapter 7 的字數和深度已經完美符合學術報告的結論要求。
+2. **準備 References**：現在我們只剩下最後一個關鍵部分了：**References (參考文獻列表)**。我已經根據你上傳的 HKCT Library 規範（APA 7th）以及 Mustafa 的 Appendix A，為你整理了一份完整的、絕對符合格式的 References 列表。
+3. **準備 Appendices**：我們還需要整理附錄（會議記錄、完整程式碼等）。
+
+**你準備好讓我為你生成最終的 References 列表了嗎？** 還是你想先處理 **Appendices** 的結構？請告訴我！

@@ -1,0 +1,63 @@
+這是一份為你量身打造的 **Chapter 5: Implementation & Demonstration** 大綱與截圖放置指引。這個章節是整個報告的核心，直接對應 **Product (40%)** 的評分標準。
+
+我們將採用 **「漏洞描述 (Detection) -> 攻擊演示 (Attack) -> 修復方案 (Remediation)」** 的結構，完美扣題 "Detection and Remediation Demonstration System"。
+
+---
+
+# **Chapter 5: Implementation & Demonstration (大綱與截圖指引)**
+
+## **5.1 Development Environment & Tools**
+*   **內容重點**：簡述實作環境。說明使用 Docker 部署 OWASP Juice Shop 作為現代化靶場，並使用 Python Flask 開發自定義的修復演示模組。
+*   **提及工具**：Docker, OWASP Juice Shop, Python 3, Flask, Kali Linux (Terminal), Firefox Browser.
+
+## **5.2 System Architecture Implementation**
+*   **內容重點**：說明「示範系統」的架構。系統由兩部分組成：
+    1.  **Target Environment**: OWASP Juice Shop (涵蓋大部分 OWASP 2025 漏洞)。
+    2.  **Remediation Dashboard**: 自製的 Python Flask 應用，專門用於展示 A10 (Fail-Open/Closed) 的程式碼級別修復對比。
+
+## **5.3 Vulnerability Detection & Remediation Demonstration**
+*(這是本章的核心，我們將 Mustafa 的 14 張截圖完美整合到這裡)*
+
+### **5.3.1 A05: Injection - SQL Injection (Authentication Bypass)**
+*   **內容重點**：展示如何在 Juice Shop 登入頁面進行 SQLi 攻擊，並提供 Node.js/Sequelize 的修復程式碼對比。
+*   **📸 截圖放置指引**：
+    *   **Figure 5.1**: 放置 **Mustafa 圖片 3** (Juice Shop 登入頁面，Email 欄位輸入 `' OR 1=1--`)。
+        *   *Caption*: Figure 5.1: SQL Injection payload executed on OWASP Juice Shop login page.
+    *   **Figure 5.2**: 放置 **Mustafa 圖片 2** (登入成功，顯示綠色橫幅 "Login Admin")。
+        *   *Caption*: Figure 5.2: Successful authentication bypass demonstrating the SQLi vulnerability.
+
+### **5.3.2 A05: Injection - Stored Cross-Site Scripting (XSS)**
+*   **內容重點**：展示在 Juice Shop 產品評論區注入惡意腳本，並提供前端 DOMPurify/textContent 的修復方案。
+*   **📸 截圖放置指引**：
+    *   **Figure 5.3**: 放置 **Mustafa 圖片 1** (Juice Shop 評論區彈出框，顯示 payload 已保存)。
+        *   *Caption*: Figure 5.3: Stored XSS payload submitted in the product review section.
+    *   **Figure 5.4**: 放置 **Mustafa 圖片 8** (評論區顯示 `<iframe>` 和 `<img>` 標籤被渲染)。
+        *   *Caption*: Figure 5.4: Unsanitized HTML tags rendered in the application, confirming Stored XSS.
+
+### **5.3.3 A10: Mishandling of Exceptional Conditions (Fail-Open vs. Fail-Closed)**
+*   **內容重點**：這是 **OWASP 2025 新增的關鍵類別**，也是你們專案的最大亮點。展示自製的 Flask 模組如何模擬資料庫崩潰，並對比「Fail-Open (漏洞)」與「Fail-Closed (修復)」的行為。
+*   **📸 截圖放置指引**：
+    *   **Figure 5.5**: 放置 **Mustafa 圖片 12** (nano 編輯器顯示 Vulnerable Fail-Open 程式碼)。
+        *   *Caption*: Figure 5.5: Vulnerable Python Flask code demonstrating the Fail-Open mechanism in the `except` block.
+    *   **Figure 5.6**: 放置 **Mustafa 圖片 9** (瀏覽器顯示紅色文字 "Access Granted (Fail-Open Vulnerability!)")。
+        *   *Caption*: Figure 5.6: Browser output showing unauthorized access granted due to unhandled exception (Fail-Open).
+    *   **Figure 5.7**: 放置 **Mustafa 圖片 13** (nano 編輯器顯示 Remediated Fail-Closed 程式碼)。
+        *   *Caption*: Figure 5.7: Remediated Flask code implementing a Fail-Closed mechanism, returning HTTP 503.
+    *   **Figure 5.8**: 放置 **Mustafa 圖片 14** (瀏覽器顯示綠色文字 "Access Denied (Fail-Closed is Safe)")。
+        *   *Caption*: Figure 5.8: Browser output showing secure default behavior (Access Denied) after remediation.
+
+## **5.4 Automated Security Scanning (Detection System Integration)**
+*   **內容重點**：為了扣題 "Detection System"，簡述如何使用 **OWASP ZAP** (或 Burp Suite) 對 Juice Shop 進行自動化掃描，並將掃描結果（如 High/Medium/Low 風險數量）整合到我們的系統中。（*註：此處可用文字描述或後續補上 ZAP 掃描報告的截圖*）。
+
+## **5.5 Summary of Implementation**
+*   **內容重點**：總結實作成果，強調系統成功涵蓋了 OWASP Top 10: 2025 的核心類別，並提供了清晰的 Detection 與 Remediation 演示。
+
+---
+
+### 💡 給 Lai Man 的下一步建議：
+
+1.  **確認大綱**：請確認這個大綱是否符合你的期望。
+2.  **開始撰寫**：如果你同意這個大綱，請回覆 **「同意大綱，開始撰寫 5.1 和 5.2」**，我會立刻為你生成這兩小節的完整英文內容。
+3.  **截圖準備**：請你現在就把 Mustafa 的圖片按照上面的指引，重命名並準備好插入 Word 文件中（例如：`Fig5.1_SQLi_Login.png`, `Fig5.6_FailOpen_Browser.png` 等），這樣撰寫時會非常順暢。
+
+你準備好開始了嗎？

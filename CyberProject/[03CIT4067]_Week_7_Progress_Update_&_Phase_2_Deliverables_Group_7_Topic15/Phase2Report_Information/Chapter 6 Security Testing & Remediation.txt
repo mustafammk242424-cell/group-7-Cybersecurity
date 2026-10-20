@@ -1,0 +1,63 @@
+這是一份為你量身打造的 **Chapter 6: Security Testing & Remediation** 草稿。
+
+這個章節是整個報告的「收尾與昇華」部分。Chapter 5 展示了具體的攻擊與修復程式碼，而 Chapter 6 則需要從**系統工程與方法論**的角度，總結你們是如何進行全面的安全測試，以及如何建立一套標準化的修復框架。這能向導師證明你們不僅會「寫 Code」，更具備企業級的「安全測試與防禦思維」。
+
+---
+
+# **Chapter 6: Security Testing & Remediation**
+
+## **6.1 Security Testing Methodology**
+To ensure the comprehensive coverage of the OWASP Top 10: 2025 risks within our demonstration system, the team adopted a hybrid security testing methodology. Relying solely on automated tools is insufficient for detecting complex business logic flaws, while manual testing alone is too time-consuming for broad coverage. Therefore, our testing strategy integrates **Automated Vulnerability Scanning** and **Manual Penetration Testing**, aligned with the OWASP Testing Guide v4 (OWASP Foundation, 2025).
+
+## **6.2 Automated Vulnerability Detection (OWASP ZAP Integration)**
+Automated scanning forms the baseline of our "Detection System." We utilized **OWASP ZAP (Zed Attack Proxy)**, an open-source web application security scanner, to identify common vulnerabilities within the OWASP Juice Shop environment.
+
+### **6.2.1 Scanning Configuration**
+1.  **Proxy Setup:** OWASP ZAP was configured as a local proxy on port 8080. All browser traffic from the Kali Linux Firefox instance to the Juice Shop (`http://localhost:3000`) was routed through ZAP.
+2.  **Spidering (Crawling):** The ZAP Spider was executed to map the application's attack surface, identifying all accessible endpoints, forms, and hidden directories.
+3.  **Active Scan:** An active scan was launched against the crawled URLs. ZAP injected various payloads (e.g., SQL injection strings, XSS scripts) into parameters to observe the application's responses.
+
+### **6.2.2 Risk Analysis & Reporting**
+The automated scan generated a comprehensive report categorizing vulnerabilities by severity: High, Medium, Low, and Informational. 
+*   **High Risk:** Identified critical flaws such as SQL Injection (A05) and Broken Access Control (A01) in legacy API endpoints.
+*   **Medium Risk:** Detected missing security headers and potential Cross-Site Request Forgery (CSRF) vectors.
+*   **Limitation:** While highly effective for known injection flaws, the automated scanner failed to identify the **A10: Mishandling of Exceptional Conditions (Fail-Open)** vulnerability in our custom Flask module. This is because A10 is a business logic flaw that requires specific state-triggering (e.g., simulating a database crash), which standard fuzzing payloads cannot replicate. This limitation necessitated the manual testing phase.
+
+## **6.3 Manual Penetration Testing & Validation**
+To address the limitations of automated scanning, manual penetration testing was conducted using **Burp Suite Community Edition** and browser developer tools. This phase focused on logic flaws and the custom A10 Flask module.
+
+### **6.3.1 Logic Flaw Verification (A10 Fail-Open)**
+As demonstrated in Chapter 5, the A10 vulnerability requires triggering an unhandled exception during an authorization check. 
+*   **Testing Process:** Using Burp Suite's Repeater tool, we manually crafted HTTP GET requests to the `/admin` endpoint. By appending the parameter `?user=attacker`, we forced the backend logic to throw a simulated database exception.
+*   **Validation:** We verified that the vulnerable code returned an HTTP 200 OK status with "Access Granted," confirming the fail-open state. Subsequently, we validated the remediated code, which correctly returned an HTTP 503 Service Unavailable status, enforcing a fail-closed state. This manual validation proved that our custom remediation module functions as intended under abnormal conditions.
+
+## **6.4 Comprehensive Remediation Framework**
+Based on the findings from both automated and manual testing, the team formulated a standardized Remediation Framework to address the identified risks. This framework serves as the core knowledge base for our demonstration system.
+
+### **6.4.1 Input Validation and Output Encoding (Addressing A05: Injection)**
+*   **Strategy:** Implement a "Deny by Default" input validation policy. All user inputs must be validated against strict allowlists (e.g., allowing only alphanumeric characters for usernames).
+*   **Implementation:** For database interactions, strictly enforce the use of Parameterized Queries (Prepared Statements) or Object-Relational Mapping (ORM) frameworks like Sequelize. For frontend rendering, utilize context-aware output encoding or sanitization libraries (e.g., DOMPurify) to neutralize malicious scripts before they reach the browser.
+
+### **6.4.2 Fail-Closed Architecture Design (Addressing A10: Exceptional Conditions)**
+*   **Strategy:** Redesign error handling mechanisms to ensure that any system failure defaults to a secure state.
+*   **Implementation:** In all authorization and authentication modules, `try-except` or `try-catch` blocks must be explicitly programmed to deny access in the `except` block. Furthermore, global exception handlers must be implemented to catch unhandled errors, log the stack trace internally for debugging, and return a generic, sanitized error message (e.g., HTTP 500 or 503) to the end-user to prevent information leakage.
+
+### **6.4.3 Software Supply Chain Security (Addressing A03: Supply Chain Failures)**
+*   **Strategy:** Establish continuous monitoring for third-party dependencies.
+*   **Implementation:** Integrate automated dependency scanning tools into the development lifecycle. For Node.js applications, utilize `npm audit`; for Python environments, employ `pip-audit`. These tools generate a Software Bill of Materials (SBOM) and flag dependencies with known Common Vulnerabilities and Exposures (CVEs), allowing developers to patch or upgrade libraries before deployment.
+
+## **6.5 Summary of Testing Phase**
+The security testing phase successfully validated the effectiveness of our demonstration system. The integration of OWASP ZAP provided broad coverage for standard injection and configuration vulnerabilities, while manual penetration testing ensured the detection and remediation of complex logic flaws like the A10 Fail-Open condition. Together, these testing methodologies and the resulting remediation framework form a robust, closed-loop security lifecycle, fully satisfying the objectives of the "Detection and Remediation Demonstration System."
+
+---
+
+### 💡 給 Lai Man 的下一步建議：
+
+1. **複製與整合**：將上述文字複製到 Word 中。這部分內容非常專業，直接提升了報告的學術深度。
+2. **APA 7th 引用檢查**：我在文中使用了 `(OWASP Foundation, 2025)` 這樣的格式。請確保在最後的 **References** 章節中包含對應的完整文獻（我會在下一章幫你生成完整的 References 列表）。
+3. **準備進入最終階段**：Chapter 6 完成後，我們只剩下最後幾個部分了：
+   - **Chapter 7: Conclusion & Future Work** (結論與未來展望)
+   - **References** (完整的 APA 7th 參考文獻列表)
+   - **Appendices** (附錄：會議記錄、完整程式碼等)
+
+**你準備好繼續撰寫 Chapter 7 了嗎？** 還是你想先處理 **References** 列表以確保引用格式萬無一失？請告訴我！

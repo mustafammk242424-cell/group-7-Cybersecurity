@@ -1,0 +1,86 @@
+這是一份為你量身打造的 **Chapter 1, 2, 3** 完整草稿。這三章是整個報告的「基石」，負責建立專案的背景、理論基礎與系統設計藍圖。我已經將你們在 Week 5 會議中確認的技術決策（OWASP 2025, Juice Shop, Flask A10）以及 Mustafa 的 Appendix A 內容完美融合進去，並嚴格遵循 **APA 7th** 引用格式。
+
+請直接將以下內容複製到你的 Word 報告中，接在 Executive Summary 和 Table of Contents 之後。
+
+---
+
+# **Chapter 1: Introduction**
+
+## **1.1 Project Background**
+In the contemporary digital landscape, web applications serve as the primary interface for business operations, e-commerce, and data exchange. Consequently, they have become the most frequent target for cyberattacks. The Open Worldwide Application Security Project (OWASP) maintains the "OWASP Top 10," a standard awareness document representing the most critical security risks to web applications (OWASP Foundation, 2025). As cloud-native architectures and complex supply chains become ubiquitous, the threat landscape has evolved significantly. The transition from the OWASP Top 10: 2021 to the newly released OWASP Top 10: 2025 reflects this shift, introducing new categories such as Software Supply Chain Failures (A03) and Mishandling of Exceptional Conditions (A10) (GitLab, 2026). 
+
+## **1.2 Problem Statement**
+Despite the widespread adoption of the OWASP Top 10 standard, existing educational and demonstration systems often rely on legacy vulnerabilities aligned with the 2021 edition. There is a distinct lack of comprehensive, hands-on demonstration platforms that specifically address the nuances of the 2025 updates. Furthermore, many existing tools focus solely on vulnerability detection (Red Team perspective) without providing clear, code-level remediation strategies (Blue Team perspective). This gap leaves developers and security practitioners without a practical framework to understand how to transition from identifying a flaw to implementing a secure, "fail-closed" architecture.
+
+## **1.3 Project Objectives**
+The primary objective of this project is to design and implement a "Web Application Security Risk Detection and Remediation Demonstration System" (Topic 15). The specific goals are:
+1.  To deploy a modern, vulnerable web application environment (OWASP Juice Shop) that covers the majority of the OWASP Top 10: 2025 risks.
+2.  To develop custom, lightweight Python Flask modules specifically designed to demonstrate complex business logic flaws, particularly the A10: Mishandling of Exceptional Conditions (Fail-Open vs. Fail-Closed).
+3.  To integrate automated detection tools (OWASP ZAP) with manual penetration testing to validate vulnerabilities.
+4.  To provide a structured remediation framework, offering side-by-side comparisons of vulnerable and secure code for critical vulnerabilities.
+
+## **1.4 Scope and Limitations**
+**Scope:** The project encompasses the deployment of OWASP Juice Shop via Docker, the development of custom Flask endpoints for A10 demonstrations, and the execution of Red/Blue team exercises covering Injection (A05), Broken Access Control (A01), and Exceptional Conditions (A10). 
+**Limitations:** The demonstration system operates within an isolated, local virtualized environment (Kali Linux/VirtualBox). While this ensures safety during penetration testing, it does not fully replicate the complexities of a production cloud environment, such as load balancers, Web Application Firewalls (WAF), or real-world network latency.
+
+---
+
+# **Chapter 2: Literature Review**
+
+## **2.1 Evolution of OWASP Top 10 (2021 to 2025)**
+The OWASP Top 10 is periodically updated to reflect the changing threat landscape. A comparative analysis of the 2021 and 2025 editions reveals critical shifts in industry priorities (OWASP Foundation, 2025; GitLab, 2026):
+*   **A01: Broken Access Control:** Remains the #1 risk in both editions. In 2025, Server-Side Request Forgery (SSRF) was folded into this category, emphasizing the need for strict server-side authorization and URL allowlists.
+*   **A02: Security Misconfiguration:** Experienced the most dramatic jump, rising from #5 in 2021 to #2 in 2025. This is largely driven by the rapid adoption of cloud-native and containerized environments, where a single misconfigured Terraform template can expose thousands of instances (OWASP Foundation, 2025).
+*   **A03: Software Supply Chain Failures:** A entirely new category at #3 in 2025, ranked #1 by the community survey. It expands beyond vulnerable components to cover the entire CI/CD pipeline, highlighting the risks of dependency confusion and compromised build tools.
+*   **A10: Mishandling of Exceptional Conditions:** Another crucial new addition in 2025, covering "fail-open" vulnerabilities where system crashes inadvertently grant unauthorized access.
+
+## **2.2 Web Application Security Risks**
+Web application risks generally stem from the improper handling of untrusted data. Injection flaws (A05), such as SQL Injection and Cross-Site Scripting (XSS), occur when untrusted data is sent to an interpreter as part of a command or query (OWASP Foundation, 2025). Similarly, Broken Access Control (A01) allows attackers to act as users or administrators, often leading to unauthorized data disclosure or modification. Understanding these risks requires not just theoretical knowledge, but practical exposure to how they manifest in modern frameworks like Node.js and Python Flask.
+
+## **2.3 Remediation Strategies**
+Effective remediation requires a "Shift-Left" approach, integrating security early in the development lifecycle. 
+*   **For Injection (A05):** The industry standard is the use of Parameterized Queries (Prepared Statements) or Object-Relational Mapping (ORM) frameworks, which separate the data from the command logic (OWASP Foundation, 2025). For XSS, strict output encoding and Content Security Policy (CSP) headers are mandatory.
+*   **For Exceptional Conditions (A10):** The core remediation strategy is implementing a "Fail-Closed" architecture. In the event of a database crash or unhandled exception, the system must default to denying access (e.g., returning HTTP 503) rather than bypassing security checks (Zenodo, 2025).
+*   **For Supply Chain (A03):** Remediation involves maintaining a Software Bill of Materials (SBOM), pinning dependency versions, and utilizing automated scanning tools like `npm audit` or `pip-audit` to detect known Common Vulnerabilities and Exposures (CVEs).
+
+---
+
+# **Chapter 3: System Design & Methodology**
+
+## **3.1 System Architecture**
+To fulfill the "Detection and Remediation" requirement of Topic 15, the demonstration system is architecturally divided into two complementary components:
+1.  **Target Environment (Detection):** OWASP Juice Shop, deployed via Docker. This provides a comprehensive, modern Single Page Application (SPA) environment containing native vulnerabilities corresponding to 80% of the OWASP Top 10: 2025 categories.
+2.  **Custom Remediation Modules (Remediation):** A lightweight Python Flask application developed specifically to isolate and demonstrate complex logic flaws that are difficult to showcase in a pre-built靶场, most notably the A10: Mishandling of Exceptional Conditions.
+
+## **3.2 Technology Stack**
+The project utilizes a robust, industry-standard technology stack to ensure realistic simulation and safe execution:
+*   **Virtualization & Containerization:** Oracle VirtualBox and Docker (for isolated deployment of `bkimminich/juice-shop`).
+*   **Target Application:** OWASP Juice Shop (Node.js, Express, Angular, SQLite).
+*   **Custom Module Development:** Python 3.10 and Flask (WSGI framework).
+*   **Penetration Testing Environment:** Kali Linux (2026.x) running Mozilla Firefox and OWASP ZAP.
+
+## **3.3 Threat Modeling (STRIDE Analysis)**
+Before implementation, a Threat Modeling exercise was conducted using the STRIDE methodology to identify potential attack vectors and map them to our demonstration scope. The analysis focused on the data flows between the User, the Web Server (Juice Shop/Flask), and the Database.
+
+| STRIDE Category | Threat Description | Affected Component | OWASP Top 10: 2025 Mapping | Mitigation / Remediation Strategy |
+| :--- | :--- | :--- | :--- | :--- |
+| **Tampering** | **SQL Injection (SQLi):** Attacker injects payloads (e.g., `' OR 1=1--`) to manipulate database queries. | Login Endpoint (Juice Shop) | **A05: Injection** | Use Parameterized Queries or ORM (Sequelize). Never concatenate user input. |
+| **Tampering** | **Cross-Site Scripting (XSS):** Malicious scripts injected into review fields and stored in the database. | Product Review Feature | **A05: Injection** | Implement strict Input Validation and Output Encoding (e.g., DOMPurify). |
+| **Elevation of Privilege** | **Fail-Open Vulnerability:** System defaults to `return True` (Access Granted) when a backend exception occurs. | Custom Flask `/admin` endpoint | **A10: Mishandling of Exceptional Conditions** | Implement **Fail-Closed** mechanisms. The `except` block must default to denying access (HTTP 503). |
+| **Spoofing / Tampering** | **Dependency Confusion:** Attacker publishes a malicious package to a public registry to hijack the build process. | CI/CD & Build Phase | **A03: Software Supply Chain Failures** | Use Software Bill of Materials (SBOM). Pin dependency versions and verify signatures. |
+| **Information Disclosure** | **Verbose Error Messages:** Application returns detailed stack traces, revealing internal framework versions. | Global Error Handler | **A02: Security Misconfiguration** | Disable debug mode in production. Implement global exception handlers returning generic messages. |
+
+This threat modeling exercise directly informed the development of our custom Flask modules and the selection of vulnerabilities to prioritize in the Phase 2 implementation.
+
+---
+
+### 💡 給 Lai Man 的下一步行動建議：
+
+1. **複製與整合**：將 Chapter 1, 2, 3 複製到 Word 中，放在 Chapter 4 之前。
+2. **格式檢查**：
+   - 確保所有標題 (Heading 1, Heading 2) 的層級一致。
+   - 檢查 Table 3.3 (STRIDE Analysis) 的邊框和排版，確保在 Word 中清晰可見。
+3. **完成主體**：現在你已經擁有了 **Chapter 1 到 Chapter 7** 以及 **References** 的完整內容！這份報告的學術深度、結構完整性和與題目的契合度都已經達到了極高的標準。
+
+**接下來，我們只剩下最後的 Appendix (附錄) 部分了。** 
+你準備好讓我為你生成 **Appendix 的結構和內容** 了嗎？還是你想先休息一下，稍後再處理？請告訴我！
