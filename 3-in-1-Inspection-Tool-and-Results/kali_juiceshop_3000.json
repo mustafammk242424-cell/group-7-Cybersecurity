@@ -1,0 +1,106 @@
+{
+  "tool": "PySec-Hybrid Inspector V2 (3-in-1)",
+  "target_base_url": "http://127.0.0.1:3000",
+  "timestamp_utc": "2026-11-27T06:01:04.947017+00:00",
+  "metrics": {
+    "total_findings": 6,
+    "vulnerable_count": 1,
+    "secure_count": 5,
+    "error_count": 0,
+    "total_elapsed_ms": 62.3
+  },
+  "findings": [
+    {
+      "module_name": "tool1_passive_header_audit",
+      "owasp_2025_id": "A02:2025",
+      "cwe_id": "CWE-693",
+      "target": "http://127.0.0.1:3000/",
+      "status": "Vulnerable",
+      "confidence": "Direct",
+      "summary": "missing_headers=['Content-Security-Policy']; wildcard_cors=ACAO:*",
+      "elapsed_ms": 4.05,
+      "evidence": {
+        "http_status": 200,
+        "missing_headers": [
+          "Content-Security-Policy"
+        ],
+        "wildcard_cors": true
+      }
+    },
+    {
+      "module_name": "tool2_active_sqli_probe",
+      "owasp_2025_id": "A05:2025",
+      "cwe_id": "CWE-89",
+      "target": "http://127.0.0.1:3000/rest/user/login",
+      "status": "Secure",
+      "confidence": "Heuristic",
+      "summary": "No SQL error or 5xx response (HTTP 200)",
+      "elapsed_ms": 14.65,
+      "evidence": {
+        "http_status": 200,
+        "payload": "' OR 1=1--",
+        "matched_sql_indicators": []
+      }
+    },
+    {
+      "module_name": "tool2_active_sqli_probe",
+      "owasp_2025_id": "A05:2025",
+      "cwe_id": "CWE-89",
+      "target": "http://127.0.0.1:3000/rest/user/login",
+      "status": "Secure",
+      "confidence": "Heuristic",
+      "summary": "No SQL error or 5xx response (HTTP 401)",
+      "elapsed_ms": 17.25,
+      "evidence": {
+        "http_status": 401,
+        "payload": "' OR '1'='1",
+        "matched_sql_indicators": []
+      }
+    },
+    {
+      "module_name": "tool2_active_sqli_probe",
+      "owasp_2025_id": "A05:2025",
+      "cwe_id": "CWE-89",
+      "target": "http://127.0.0.1:3000/rest/user/login",
+      "status": "Secure",
+      "confidence": "Heuristic",
+      "summary": "No SQL error or 5xx response (HTTP 401)",
+      "elapsed_ms": 14.06,
+      "evidence": {
+        "http_status": 401,
+        "payload": "\" OR \"1\"=\"1",
+        "matched_sql_indicators": []
+      }
+    },
+    {
+      "module_name": "tool3_fail_closed_resilience_check",
+      "owasp_2025_id": "A10:2025",
+      "cwe_id": "CWE-755",
+      "target": "http://127.0.0.1:3000/api/protected",
+      "status": "Secure",
+      "confidence": "Heuristic",
+      "summary": "Controlled error/denial response without trace leak (HTTP 500)",
+      "elapsed_ms": 3.99,
+      "evidence": {
+        "probe_name": "malformed_json_payload",
+        "http_status": 500,
+        "leaked_trace_tokens": []
+      }
+    },
+    {
+      "module_name": "tool3_fail_closed_resilience_check",
+      "owasp_2025_id": "A10:2025",
+      "cwe_id": "CWE-755",
+      "target": "http://127.0.0.1:3000/api/protected",
+      "status": "Secure",
+      "confidence": "Heuristic",
+      "summary": "Controlled error/denial response without trace leak (HTTP 500)",
+      "elapsed_ms": 8.3,
+      "evidence": {
+        "probe_name": "oversized_field_probe",
+        "http_status": 500,
+        "leaked_trace_tokens": []
+      }
+    }
+  ]
+}
