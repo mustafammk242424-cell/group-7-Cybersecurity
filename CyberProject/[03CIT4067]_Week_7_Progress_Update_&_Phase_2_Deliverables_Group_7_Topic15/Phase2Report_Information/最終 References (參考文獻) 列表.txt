@@ -1,0 +1,52 @@
+這是一份為你量身打造的 **最終 References (參考文獻) 列表**。
+
+這份列表嚴格遵循了 **APA 7th 格式** 以及你上傳的 **HKCT Library 規範**（包含作者、年份、斜體標題、來源與 URL）。我已經將我們在 Chapter 1 到 Chapter 7 以及 Appendix A 中引用過的所有文獻進行了整合，並按**作者姓氏字母順序 (A-Z)** 排列。
+
+請直接將以下內容複製到你的報告最後一頁。
+
+---
+
+# **References**
+
+GitLab. (2026, January 7). *OWASP Top 10 2025: What's changed and why it matters*. GitLab Blog. https://about.gitlab.com/blog/2025-owasp-top-10-whats-changed-and-why-it-matters/
+
+IBM Security. (2025). *Cost of a data breach report 2025*. IBM Corporation. https://www.ibm.com/reports/data-breach
+
+OWASP Foundation. (2021). *OWASP Top 10:2021: The ten most critical web application security risks*. https://owasp.org/www-project-top-ten/
+
+OWASP Foundation. (2023). *OWASP Threat Modeling Cheat Sheet*. https://cheatsheetseries.owasp.org/cheatsheets/Threat_Modeling_Cheat_Sheet.html
+
+OWASP Foundation. (2025a). *OWASP Top 10:2025: The ten most critical web application security risks*. https://owasp.org/www-project-top-ten/
+
+OWASP Foundation. (2025b). *OWASP Testing Guide v4*. https://owasp.org/www-project-web-security-testing-guide/
+
+Schadler, B., & Klein, A. (2024). *OWASP Juice Shop: Vulnerable web application for security training*. https://owasp.org/www-project-juice-shop/
+
+Shostack, A. (2014). *Threat modeling: Designing for security*. John Wiley & Sons.
+
+Zenodo. (2025a). *Mishandling of exceptional conditions vulnerability: A detailed study*. https://zenodo.org/records/17867093
+
+Zenodo. (2025b). *Software supply chain failures: A detailed vulnerability study with applicable remediations for PHP-based applications*. https://zenodo.org/records/17866839
+
+---
+
+### 💡 給 Lai Man 的 Word 排版重要提示（APA 7th 規範）：
+
+1. **懸掛縮排 (Hanging Indent)**：在 Word 中選中整個 References 列表，進入 `段落 (Paragraph)` -> `特殊格式 (Special)` -> 選擇 `懸掛縮排 (Hanging)`，設定為 **0.5 英寸 (或 1.27 公分)**。這意味著第一行頂格，第二行開始向內縮排。
+2. **字母順序**：目前列表已經按 A-Z 排好（GitLab -> IBM -> OWASP -> Schadler -> Shostack -> Zenodo）。
+3. **同作者同年份**：因為 OWASP Foundation 和 Zenodo 在 2025 年有多篇文獻，所以使用了 **2025a, 2025b** 來區分。請確保你在正文中的 In-text citation 也對應修改（例如：`(OWASP Foundation, 2025a)`）。
+4. **斜體規則**：請檢查 Word 中的斜體是否正確。獨立作品（如書名、報告名、網頁標題）需要斜體，但期刊文章的文章名不需要斜體（本列表皆為獨立作品/報告，故標題皆為斜體）。
+
+---
+
+### 🚀 下一步行動：
+
+現在我們已經完成了報告的核心主體（Chapter 4, 5, 6, 7）和 References。只剩下最後的 **Appendices (附錄)** 部分。
+
+**你準備好讓我為你生成 Appendix 的結構和內容了嗎？** 
+Appendix 通常包含：
+*   **Appendix A**: Red/Blue Team Exercise Report (Mustafa 的原始報告，我們已經有了)
+*   **Appendix B**: Source Code Snippets (A10 Flask 完整程式碼)
+*   **Appendix C**: Meeting Minutes & Communication Logs (證明你作為 Leader 的努力與組員溝通記錄)
+
+請告訴我是否繼續生成 Appendix！
